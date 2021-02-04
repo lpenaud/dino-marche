@@ -32,7 +32,7 @@ class Logger {
 
   public warn(text: string, ...formats: format[]): void {
     this.writeLn(
-      chalk.bgYellow("WARNING"),      
+      chalk.bgYellow("WARNING"),
       chalk.yellow(this.format(text, formats))
     );
   }
@@ -59,17 +59,17 @@ class Logger {
   }
 
   protected format(text: string, formats: format[]): string {
-    return text.replace(REG_EXP_FORMAT, this.newReplacer(formats))
+    return text.replace(REG_EXP_FORMAT, this.newReplacer(formats));
   }
 
   protected newReplacer(formats: format[]): () => string {
     const it = formats.values();
     return () => {
-      let { value } = it.next();
+      const { value } = it.next();
       return isString(value) ? value : isString(value.modifiers)
         ? modifier[value.modifiers](value.content)
         : value.modifiers.reduce((content: string, m: keyof Modifier) => modifier[m](content), value.content);
-    }
+    };
   }
 
   private out: NodeJS.WriteStream;

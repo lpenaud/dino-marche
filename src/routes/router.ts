@@ -1,8 +1,8 @@
 import * as Router from "koa-router";
-import { prefix, started } from "../config";
+import { API_PREFIX, started } from "../config";
 
 const router = new Router({
-  prefix: prefix,
+  prefix: API_PREFIX,
 });
 
 router.get("/", (ctx) => {

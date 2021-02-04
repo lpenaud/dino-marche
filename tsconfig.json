@@ -1,20 +1,20 @@
 {
-    "compilerOptions": {
-        "target": "ESNext",
-        "outDir": "dist",
-        "newLine": "LF",
-        "lib": [
-            "ES6"
-        ],
-        "module": "CommonJS",
-        "experimentalDecorators": true,
-    },
-    "include": [
-        "src"
+  "compilerOptions": {
+    "target": "ESNext",
+    "outDir": "dist",
+    "newLine": "LF",
+    "lib": [
+      "ES6"
     ],
-    "exclude": [
-        "node_modules",
-        "client",
-        "lib"
-    ]
+    "module": "CommonJS",
+    "experimentalDecorators": true,
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "client",
+    "lib"
+  ]
 }

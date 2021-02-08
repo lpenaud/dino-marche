@@ -65,13 +65,10 @@ export const MARIA_LOG_LEVEL = parseLogLevel(process.env.MARIA_LOG_LEVEL);
 export const MARIA_LOG = process.env.MARIA_LOG !== undefined 
   ? new SequelizeLogger(process.env.MARIA_LOG)
   : new NullLogger();
+Object.freeze(MARIA_LOG);
 export const MARIA_FORCE = parseBoolean("MARIA_FORCE");
 
-export let started: Readonly<Date>;
-
-export function start(): void {
-  started = Object.freeze(new Date());
-}
+export const STARTED = Object.freeze(new Date());
 
 try {
   assert.ok(API_PORT, "API_PORT must be a number");

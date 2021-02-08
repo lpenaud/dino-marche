@@ -4,12 +4,11 @@ import {
   MARIA_FORCE,
   MARIA_HOSTNAME,
   MARIA_LOG,
-  MARIA_LOG_LEVEL,
+
   MARIA_PASSWORD,
   MARIA_PORT,
   MARIA_USER
 } from "../config";
-import { getLoggerLevel } from "../utils/logger/log-level";
 import Adress from "./adress";
 import Client from "./client";
 import Delivery from "./delivery";
@@ -45,7 +44,7 @@ const sequelize = new Sequelize({
   password: MARIA_PASSWORD,
   port: MARIA_PORT,
   username: MARIA_USER,
-  logging: getLoggerLevel(MARIA_LOG, MARIA_LOG_LEVEL),
+  logging: MARIA_LOG,
   sync: {
     force: MARIA_FORCE,
   }

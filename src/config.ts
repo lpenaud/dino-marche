@@ -2,8 +2,8 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
-import { parseLogLevel } from "./utils/logger/log-level";
-import NullLogger from "./utils/logger/null-logger";
+import KoaLogger from "./utils/logger/koa-logger";
+import loggerFactory from "./utils/logger/logger-factory";
 import SequelizeLogger from "./utils/logger/sequelize-logger";
 import logger from "./utils/logger/singleton-logger";
 
@@ -38,9 +38,7 @@ function readEnv() {
       throw result.error;
     }
   }
-  for (const key in result.parsed) {
-    process.env[key] = result.parsed[key];
-  }
+  Object.assign(process.env, result.parsed);
 }
 
 dotenv.config({
@@ -55,17 +53,14 @@ export const API_CERT = Object.freeze({
   key: fs.readFileSync(process.env.API_KEY),
   cert: fs.readFileSync(process.env.API_CERT),
 });
+export const API_LOG = loggerFactory(KoaLogger, process.env.API_LOG_LEVEL, process.env.API_LOG);
 
 export const MARIA_HOSTNAME = process.env.MARIA_HOSTNAME || "";
 export const MARIA_PORT = parseInt(process.env.MARIA_PORT);
 export const MARIA_DB = process.env.MARIA_DB;
 export const MARIA_USER = process.env.MARIA_USER;
 export const MARIA_PASSWORD = process.env.MARIA_PASSWORD;
-export const MARIA_LOG_LEVEL = parseLogLevel(process.env.MARIA_LOG_LEVEL);
-export const MARIA_LOG = process.env.MARIA_LOG !== undefined 
-  ? new SequelizeLogger(process.env.MARIA_LOG)
-  : new NullLogger();
-Object.freeze(MARIA_LOG);
+export const MARIA_LOG = loggerFactory(SequelizeLogger, process.env.MARIA_LOG_LEVEL, process.env.MARIA_LOG);
 export const MARIA_FORCE = parseBoolean("MARIA_FORCE");
 
 export const STARTED = Date.now();

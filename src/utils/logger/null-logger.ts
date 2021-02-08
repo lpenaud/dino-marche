@@ -5,7 +5,7 @@ import Logger from "./logger";
 
 export default class NullLogger extends Logger {
   constructor() {
-    super(null);
+    super(process.stdout);
   }
 
   public assert(value: any, message?: string, ...optionalParams: any[]): void {

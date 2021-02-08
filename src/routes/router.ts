@@ -7,8 +7,8 @@ const router = new Router({
 
 router.get("/", (ctx, next) => {
   ctx.body = {
-    started: STARTED.getTime(),
-    uptime: Date.now() - STARTED.getTime(),
+    started: STARTED,
+    uptime: Date.now() - STARTED,
   };
   next();
 });

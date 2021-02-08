@@ -68,7 +68,7 @@ export const MARIA_LOG = process.env.MARIA_LOG !== undefined
 Object.freeze(MARIA_LOG);
 export const MARIA_FORCE = parseBoolean("MARIA_FORCE");
 
-export const STARTED = Object.freeze(new Date());
+export const STARTED = Date.now();
 
 try {
   assert.ok(API_PORT, "API_PORT must be a number");

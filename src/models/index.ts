@@ -1,6 +1,15 @@
 import { Sequelize, SequelizeOptions } from "sequelize-typescript";
-import { MARIA_DB, MARIA_FORCE, MARIA_HOST, MARIA_LOG, MARIA_PASSWORD, MARIA_PORT, MARIA_USER } from "../config";
-import logger from "../logger";
+import {
+  MARIA_DB,
+  MARIA_FORCE,
+  MARIA_HOST,
+  MARIA_LOG,
+  MARIA_LOG_LEVEL,
+  MARIA_PASSWORD,
+  MARIA_PORT,
+  MARIA_USER
+} from "../config";
+import { getLoggerLevel } from "../utils/logger/log-level";
 import Adress from "./adress";
 import Client from "./client";
 import Delivery from "./delivery";
@@ -36,15 +45,11 @@ const sequelize = new Sequelize({
   password: MARIA_PASSWORD,
   port: MARIA_PORT,
   username: MARIA_USER,
-  logging: MARIA_LOG,
+  logging: getLoggerLevel(MARIA_LOG, MARIA_LOG_LEVEL),
   sync: {
     force: MARIA_FORCE,
   }
 } as SequelizeOptions);
-
-sequelize.authenticate().catch((err) => {
-  logger.error("Unable to connect to MariaDB");
-});
 
 export {
   Client,
@@ -59,3 +64,5 @@ export {
   Diet,
   Species,
 };
+
+export default sequelize;

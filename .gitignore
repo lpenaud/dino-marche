@@ -1,1 +1,8 @@
+# node modules
 node_modules
+
+# dot env
+*.env
+
+# logs
+logs/*.log

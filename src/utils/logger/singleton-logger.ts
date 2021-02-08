@@ -1,6 +1,6 @@
-import * as assert from "assert";
 import * as chalk from "chalk";
-import { arrayOrValue, isString } from "./helpers";
+import { arrayOrValue, isString } from "../../helpers";
+import Logger from "./logger";
 
 interface Modifier {
   italic(...text: unknown[]): string;
@@ -25,37 +25,32 @@ type format = string | {
 
 const REG_EXP_FORMAT = /\{\}/g;
 
-class Logger {
-  constructor(out?: NodeJS.WriteStream) {
-    this.out = out || process.stderr;
+class SingletonLogger extends Logger {
+  constructor() {
+    super(process.stderr);
   }
 
   public warn(text: string, ...formats: format[]): void {
-    this.writeLn(
+    this._log(
       chalk.bgYellow("WARNING"),
       chalk.yellow(this.format(text, formats))
     );
   }
 
-  public error(text: string, ...formats: format[]): void {
-    this.writeLn(chalk.bgRed("ERROR"), chalk.red(this.format(text, formats)));
-  }
-
-  public success(text: string, ...formats: format[]): void {
-    this.writeLn(chalk.bgGreen("SUCCESS"), chalk.green(this.format(text, formats)));
-  }
-
-  public assert(test: boolean, text?: unknown): void {
-    try {
-      assert(test);
-    } catch (error) {
-      this.error(text || error.message);
-      throw error;
+  public error(text: string | Error, ...formats: format[]): void {
+    if (typeof text === "string") {
+      this._log(chalk.bgRed("ERROR"), chalk.red(this.format(text, formats)));
+    } else {
+      this._log(chalk.bgRed("ERROR"), chalk.red(chalk.bold(text.name)) + chalk.red(text.message));
     }
   }
 
-  protected writeLn(title: string, text: string): void {
-    this.out.write(chalk.bold(chalk.black(title)) + "\t" + text + "\n");
+  public success(text: string, ...formats: format[]): void {
+    this._log(chalk.bgGreen("SUCCESS"), chalk.green(this.format(text, formats)));
+  }
+
+  protected _log(title: string, text: string): void {
+    super.log(chalk.bold(chalk.black(title)) + "\t" + text);
   }
 
   protected format(text: string, formats: format[]): string {
@@ -71,8 +66,6 @@ class Logger {
         : value.modifiers.reduce((content: string, m: keyof Modifier) => modifier[m](content), value.content);
     };
   }
-
-  private out: NodeJS.WriteStream;
 }
 
-export default new Logger();
+export default new SingletonLogger();

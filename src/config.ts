@@ -1,7 +1,11 @@
+import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
-import logger from "./logger";
+import { parseLogLevel } from "./utils/logger/log-level";
+import NullLogger from "./utils/logger/null-logger";
+import SequelizeLogger from "./utils/logger/sequelize-logger";
+import logger from "./utils/logger/singleton-logger";
 
 function parseBoolean(envVar: string): boolean {
   const str = process.env[envVar];
@@ -22,7 +26,7 @@ function parseBoolean(envVar: string): boolean {
 
 function readEnv() {
   const result = dotenv.config({
-    path: path.resolve(process.cwd(), ".env"),
+    path: path.join(process.cwd(), ".env"),
   });
   if (result.error) {
     if (result.error.message.startsWith("ENOENT")) {
@@ -34,10 +38,13 @@ function readEnv() {
       throw result.error;
     }
   }
+  for (const key in result.parsed) {
+    process.env[key] = result.parsed[key];
+  }
 }
 
 dotenv.config({
-  path: path.resolve(process.cwd(), ".env.sample"),
+  path: path.join(process.cwd(), ".env.sample"),
 });
 readEnv();
 
@@ -49,12 +56,15 @@ export const API_CERT = Object.freeze({
   cert: fs.readFileSync(process.env.API_CERT),
 });
 
-export const MARIA_HOST = process.env.MARIA_HOST;
+export const MARIA_HOST = process.env.MARIA_HOST || "";
 export const MARIA_PORT = parseInt(process.env.MARIA_PORT);
 export const MARIA_DB = process.env.MARIA_DB;
 export const MARIA_USER = process.env.MARIA_USER;
 export const MARIA_PASSWORD = process.env.MARIA_PASSWORD;
-export const MARIA_LOG = parseBoolean("MARIA_LOG");
+export const MARIA_LOG_LEVEL = parseLogLevel(process.env.MARIA_LOG_LEVEL);
+export const MARIA_LOG = process.env.MARIA_LOG !== undefined 
+  ? new SequelizeLogger(process.env.MARIA_LOG)
+  : new NullLogger();
 export const MARIA_FORCE = parseBoolean("MARIA_FORCE");
 
 export let started: Readonly<Date>;
@@ -63,10 +73,14 @@ export function start(): void {
   started = Object.freeze(new Date());
 }
 
-logger.assert(!isNaN(API_PORT), "API_PORT must be a number");
-logger.assert(API_HOSTNAME?.length > 0, "API_HOSTNAME must be provide");
-logger.assert(/^[0-9A-Za-z/]+$/.test(API_PREFIX), "API_PREFIX must be validate by the regExp");
-logger.assert(MARIA_HOST?.length > 0, "MARIA_HOST must be provide");
-logger.assert(!isNaN(MARIA_PORT), "MARIA_PORT must be a number");
-logger.assert(MARIA_DB?.length > 0, "MARIA_DB must be provide");
-logger.assert(MARIA_USER?.length > 0, "MARIA_USER must be provide");
+try {
+  assert.ok(API_PORT, "API_PORT must be a number");
+  assert.ok(/^[0-9A-Za-z/]+$/.test(API_PREFIX), "API_PREFIX must only be number and letters");
+  assert.ok(MARIA_HOST, "MARIA_HOST must be provide");
+  assert.ok(MARIA_PORT, "MARIA_PORT must be a number");
+  assert.ok(MARIA_DB, "MARIA_DB must be provide");
+  assert.ok(MARIA_USER, "MARIA_USER must be provide");
+} catch (error) {
+  logger.error(error.message);
+  process.exit(-1);
+}

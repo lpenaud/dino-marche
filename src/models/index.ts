@@ -2,7 +2,7 @@ import { Sequelize, SequelizeOptions } from "sequelize-typescript";
 import {
   MARIA_DB,
   MARIA_FORCE,
-  MARIA_HOST,
+  MARIA_HOSTNAME,
   MARIA_LOG,
   MARIA_LOG_LEVEL,
   MARIA_PASSWORD,
@@ -41,7 +41,7 @@ const sequelize = new Sequelize({
     timezone: "Etc/GMT-1",
   },
   database: MARIA_DB,
-  host: MARIA_HOST,
+  host: MARIA_HOSTNAME,
   password: MARIA_PASSWORD,
   port: MARIA_PORT,
   username: MARIA_USER,

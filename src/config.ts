@@ -56,7 +56,7 @@ export const API_CERT = Object.freeze({
   cert: fs.readFileSync(process.env.API_CERT),
 });
 
-export const MARIA_HOST = process.env.MARIA_HOST || "";
+export const MARIA_HOSTNAME = process.env.MARIA_HOSTNAME || "";
 export const MARIA_PORT = parseInt(process.env.MARIA_PORT);
 export const MARIA_DB = process.env.MARIA_DB;
 export const MARIA_USER = process.env.MARIA_USER;
@@ -76,7 +76,7 @@ export function start(): void {
 try {
   assert.ok(API_PORT, "API_PORT must be a number");
   assert.ok(/^[0-9A-Za-z/]+$/.test(API_PREFIX), "API_PREFIX must only be number and letters");
-  assert.ok(MARIA_HOST, "MARIA_HOST must be provide");
+  assert.ok(MARIA_HOSTNAME, "MARIA_HOST must be provide");
   assert.ok(MARIA_PORT, "MARIA_PORT must be a number");
   assert.ok(MARIA_DB, "MARIA_DB must be provide");
   assert.ok(MARIA_USER, "MARIA_USER must be provide");

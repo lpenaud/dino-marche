@@ -22,8 +22,20 @@ export default class Payment extends Model<IPayment> implements IPayment {
   @NotNull
   @Column(DataType.DATE)
   paymentDate: Date;
-
-
-  // TODO: Add cards number
+  
+  @AllowNull(false)
+  @NotNull
+  @Column(DataType.STRING)
+  cardNumbers: string;
+  
+  @AllowNull(false)
+  @NotNull
+  @Column(DataType.STRING)
+  CVC: string;
+  
+  @AllowNull(false)
+  @NotNull
+  @Column(DataType.DATE)
+  expirationDate: Date;
 
 }

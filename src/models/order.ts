@@ -22,5 +22,12 @@ export default class Order extends Model<IOrder> implements IOrder {
   @NotNull
   @Column(DataType.BOOLEAN)
   canceled: boolean;
+  
+  @ForeignKey(() => Client)
+  @Column
+  clientId: string;
+
+  @BelongsTo(() => Client)
+  client: Client;
 
 }

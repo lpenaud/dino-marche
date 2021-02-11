@@ -22,7 +22,13 @@ export default class Payment extends Model<IPayment> implements IPayment {
   @NotNull
   @Column(DataType.DATE)
   paymentDate: Date;
+  
+  @ForeignKey(() => Adress)
+  @Column
+  adressId: string;
 
+  @BelongsTo(() => Adress)
+  adress: Adress;
 
   // TODO: Add cards number
 

@@ -1,4 +1,5 @@
-import { AllowNull, Column, DataType, Default, IsUUID, Model, NotNull, PrimaryKey, Table } from "sequelize-typescript";
+import { AllowNull, BelongsTo, Column, DataType, Default, ForeignKey, HasMany, IsUUID, Model, NotNull, PrimaryKey, Table } from "sequelize-typescript";
+import { Diet, Product } from ".";
 import { ISpecies } from "../../types/models";
 
 @Table({
@@ -37,5 +38,15 @@ export default class Species extends Model<ISpecies> implements ISpecies {
   @NotNull
   @Column(DataType.DOUBLE)
   weight: number;
+
+  @ForeignKey(() => Diet)
+  @Column
+  dietId: string;
+
+  @BelongsTo(() => Diet)
+  diet: Diet;
+
+  @HasMany(() => Product)
+  products: Product[];
 
 }

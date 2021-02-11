@@ -13,12 +13,9 @@ import Adress from "./adress";
 import Client from "./client";
 import Delivery from "./delivery";
 import Diet from "./diet";
-import Dinosaur from "./dinosaur";
-import Egg from "./egg";
-import Food from "./food";
-import Goodie from "./goodie";
 import Order from "./order";
 import Payment from "./payment";
+import Product from "./product";
 import Species from "./species";
 
 const sequelize = new Sequelize({
@@ -29,10 +26,7 @@ const sequelize = new Sequelize({
     Adress,
     Order,
     Payment,
-    Dinosaur,
-    Egg,
-    Food,
-    Goodie,
+    Product,
     Diet,
     Species,
   ],
@@ -56,10 +50,7 @@ export {
   Adress,
   Order,
   Payment,
-  Dinosaur,
-  Egg,
-  Food,
-  Goodie,
+  Product,
   Diet,
   Species,
 };

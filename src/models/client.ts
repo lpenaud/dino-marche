@@ -1,4 +1,5 @@
-import { AllowNull, Column, DataType, Default, IsEmail, IsUUID, Length, Model, NotNull, PrimaryKey, Table, Unique } from "sequelize-typescript";
+import { AllowNull, Column, DataType, Default, HasMany, IsEmail, IsUUID, Length, Model, NotNull, PrimaryKey, Table, Unique } from "sequelize-typescript";
+import { Order } from ".";
 import { IClient } from "../../types/models";
 
 @Table({
@@ -48,5 +49,8 @@ export default class Client extends Model<IClient> implements IClient {
   @NotNull
   @Column(DataType.STRING)
   password: string;
+
+  @HasMany(() => Order)
+  orders: Order[];
   
 }

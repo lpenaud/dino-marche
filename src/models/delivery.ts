@@ -1,5 +1,7 @@
-import { AllowNull, Column, DataType, Default, IsUUID, Model, NotNull, PrimaryKey, Table } from "sequelize-typescript";
+import { AllowNull, BelongsTo, Column, DataType, Default, ForeignKey, HasOne, IsUUID, Model, NotNull, PrimaryKey, Table } from "sequelize-typescript";
+import { Order } from ".";
 import { IDelivery } from "../../types/models";
+import Adress from "./adress";
 
 @Table({
   charset: "utf8",
@@ -22,6 +24,16 @@ export default class Delivery extends Model<IDelivery> implements IDelivery {
   @NotNull
   @Column(DataType.DATE)
   deliveryDate: Date;
+
+  @ForeignKey(() => Adress)
+  @Column
+  adressId: string;
+
+  @BelongsTo(() => Adress)
+  adress: Adress;
+
+  @HasOne(() => Order)
+  order: Order;
 
   // TODO: Add JOIN Adress
   // see @OneToMany

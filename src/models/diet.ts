@@ -1,5 +1,7 @@
-import { AllowNull, Column, DataType, Default, IsUUID, Model, NotNull, PrimaryKey, Table } from "sequelize-typescript";
+import { AllowNull, Column, DataType, Default, HasMany, IsUUID, Model, NotNull, PrimaryKey, Table } from "sequelize-typescript";
+import { Species } from ".";
 import { IDiet } from "../../types/models";
+import Product from "./product";
 
 @Table({
   charset: "utf8",
@@ -17,5 +19,12 @@ export default class Diet extends Model<IDiet> implements IDiet {
   @NotNull
   @Column(DataType.STRING)
   name: string;
+
+  @HasMany(() => Product)
+  products: Product[];
+
+  @HasMany(() => Species)
+  species: Species[];
+
 
 }

@@ -49,4 +49,7 @@ export default class Client extends Model<IClient> implements IClient {
   @Column(DataType.STRING)
   password: string;
   
+  @HasMany(() => Order)
+  orders: Order[];
+  
 }

@@ -33,4 +33,8 @@ export default class Adress extends Model<IAdress> implements IAdress {
   @NotNull
   @Column(DataType.INTEGER)
   houseNumber: number;
+  
+  @HasMany(() => Payment)
+  payments: Payment[];
+  
 }

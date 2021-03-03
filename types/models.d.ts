@@ -1,14 +1,11 @@
-import { Adress, Client, Delivery, Diet, Order, Payment, Species } from "../src/models";
-import Product from "../src/models/product";
-
 export interface IAdress {
+  id: string;
   zipCode: string;
   country: string;
   city: string;
   street: string;
   houseNumber: number;
-  deliveries: Delivery[];
-  payments: Payment[];
+  payments: IPayment[];
 }
 
 export interface IClient {
@@ -19,39 +16,23 @@ export interface IClient {
   email: string;
   login: string;
   password: string;
-  orders: Order[];
-}
-
-export interface IDelivery {
-  id: string;
-  shippingDate: Date;
-  deliveryDate: Date;
-  adressId: string;
-  adress: Adress;
-  order: Order;
+  orders: IOrder[];
 }
 
 export interface IDiet {
   id: string;
   name: string;
-  products: Product[];
-  species: Species[];
+  products: IProduct[];
+  species: ISpecies[];
 }
 
+// Timestamps
 export interface IOrder {
   id: string;
   orderDate: Date;
-  canceled: boolean;
-  clientId: string;
-  client: Client;
-  delivery: Delivery;
-  payment: Payment;
-  products: Product[];
-}
-
-export interface IOrderProduct {
-  orderId: string;
-  productId: string;
+  client: IClient;
+  payment: IPayment;  
+  products: IProduct[];
 }
 
 export interface IPayment {
@@ -61,10 +42,11 @@ export interface IPayment {
   cardNumbers: string;
   CVC: string;
   expirationDate: Date;
-  order: Order;
-  adressId: string;
-  adress: Adress;
+  order: IOrder;
+  adress: IAdress;
 }
+
+export type ProductType = "Dinosaur" | "Egg" | "Food" | "Goodie";
 
 export interface IProduct {
   id: string;
@@ -72,9 +54,13 @@ export interface IProduct {
   stock: number;
   price: number;
   description: string;
-  birthDate: Date;
+  layDate: Date;
   hatchDate: Date;
   quantity: number;
+  type: ProductType;
+  orders: IOrder[];
+  diet: IDiet;
+  species: ISpecies;
 }
 
 export interface ISpecies { 
@@ -84,7 +70,6 @@ export interface ISpecies {
   size: number;
   length: number;
   weight: number;
-  dietId: string;
-  diet: Diet;
-  products: Product[];
+  diet: IDiet;
+  products: IProduct[];
 }

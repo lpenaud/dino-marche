@@ -1,11 +1,29 @@
-import { AllowNull, BelongsTo, BelongsToMany, Column, DataType, Default, ForeignKey, HasOne, IsUUID, Model, NotNull, PrimaryKey, Table } from "sequelize-typescript";
-import { Client, Delivery, Payment, Product } from ".";
+import {
+  AllowNull,
+  BelongsTo,
+  BelongsToMany,
+  Column,
+  DataType,
+  Default,
+  ForeignKey,
+  HasOne,
+  IsUUID,
+  Model,
+  NotNull,
+  PrimaryKey,
+  Table
+} from "sequelize-typescript";
+import { Adress } from ".";
 import { IOrder } from "../../types/models";
-import OrderProduct from "./orderproduct";
+import Client from "./client";
+import OrderProduct from "./order-product";
+import Payment from "./payment";
+import Product from "./product";
 
 @Table({
   charset: "utf8",
   timestamps: true,
+  deletedAt: true,
 })
 export default class Order extends Model<IOrder> implements IOrder {
 
@@ -20,25 +38,27 @@ export default class Order extends Model<IOrder> implements IOrder {
   @Column(DataType.DATE)
   orderDate: Date;
 
+  @ForeignKey(() => Client)
   @AllowNull(false)
   @NotNull
-  @Column(DataType.BOOLEAN)
-  canceled: boolean;
-
-  @ForeignKey(() => Client)
-  @Column
+  @Column(DataType.UUID)
   clientId: string;
+
+  @ForeignKey(() => Adress)
+  @AllowNull(false)
+  @NotNull
+  @Column(DataType.UUID)
+  adressId: string;
 
   @BelongsTo(() => Client)
   client: Client;
 
-  @HasOne(() => Delivery)
-  delivery: Delivery
+  @BelongsTo(() => Adress)
+  delivery: Adress;
 
   @HasOne(() => Payment)
   payment: Payment
 
   @BelongsToMany(() => Product, () => OrderProduct)
   products: Product[];
-
 }

@@ -1,13 +1,25 @@
-import { AllowNull, BelongsTo, Column, DataType, Default, ForeignKey, HasOne, IsUUID, Model, NotNull, PrimaryKey, Table } from "sequelize-typescript";
-import { Adress, Order } from ".";
+import {
+  AllowNull,
+  BelongsTo,
+  Column,
+  DataType,
+  Default,
+  ForeignKey,
+  IsUUID,
+  Model,
+  NotNull,
+  PrimaryKey,
+  Table
+} from "sequelize-typescript";
 import { IPayment } from "../../types/models";
+import Adress from "./adress";
+import Order from "./order";
 
 @Table({
   charset: "utf8",
   timestamps: false,
 })
 export default class Payment extends Model<IPayment> implements IPayment {
-
   @PrimaryKey
   @IsUUID(4)
   @Default(DataType.UUIDV4)
@@ -39,14 +51,21 @@ export default class Payment extends Model<IPayment> implements IPayment {
   @Column(DataType.DATE)
   expirationDate: Date;
 
-  @HasOne(() => Order)
-  order: Order;
-
   @ForeignKey(() => Adress)
-  @Column
+  @AllowNull(false)
+  @NotNull
+  @Column(DataType.UUID)
   adressId: string;
+
+  @ForeignKey(() => Order)
+  @AllowNull(false)
+  @NotNull
+  @Column(DataType.UUID)
+  orderId: string;
+
+  @BelongsTo(() => Order)
+  order: Order;
 
   @BelongsTo(() => Adress)
   adress: Adress;
-
 }

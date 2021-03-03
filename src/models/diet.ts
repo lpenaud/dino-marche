@@ -1,14 +1,24 @@
-import { AllowNull, Column, DataType, Default, HasMany, IsUUID, Model, NotNull, PrimaryKey, Table } from "sequelize-typescript";
-import { Species } from ".";
+import {
+  AllowNull,
+  Column,
+  DataType,
+  Default,
+  HasMany,
+  IsUUID,
+  Model,
+  NotNull,
+  PrimaryKey,
+  Table
+} from "sequelize-typescript";
 import { IDiet } from "../../types/models";
 import Product from "./product";
+import Species from "./species";
 
 @Table({
   charset: "utf8",
   timestamps: false,
 })
 export default class Diet extends Model<IDiet> implements IDiet {
-
   @PrimaryKey
   @IsUUID(4)
   @Default(DataType.UUIDV4)
@@ -25,6 +35,4 @@ export default class Diet extends Model<IDiet> implements IDiet {
 
   @HasMany(() => Species)
   species: Species[];
-
-
 }

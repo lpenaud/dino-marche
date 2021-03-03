@@ -1,6 +1,22 @@
-import { AllowNull, BelongsTo, BelongsToMany, Column, DataType, Default, ForeignKey, IsUUID, Model, NotNull, PrimaryKey, Table } from "sequelize-typescript";
-import { Diet, Order, OrderProduct, Species } from ".";
-import { IProduct } from "../../types/models";
+import {
+  AllowNull,
+  BelongsTo,
+  BelongsToMany,
+  Column,
+  DataType,
+  Default,
+  ForeignKey,
+  IsUUID,
+  Model,
+  NotNull,
+  PrimaryKey,
+  Table
+} from "sequelize-typescript";
+import { IProduct, ProductType } from "../../types/models";
+import Diet from "./diet";
+import Order from "./order";
+import OrderProduct from "./order-product";
+import Species from "./species";
 
 @Table({
   charset: "utf8",
@@ -34,13 +50,13 @@ export default class Product extends Model<IProduct> implements IProduct {
   @Column(DataType.STRING)
   description: string;
 
-  // Dinosaur
+  // Egg
   @AllowNull(false)
   @NotNull
   @Column(DataType.DATE)
-  birthDate: Date;
+  layDate: Date;
 
-  // Egg
+  // Dinosaur
   @AllowNull(false)
   @NotNull
   @Column(DataType.DATE)
@@ -53,27 +69,25 @@ export default class Product extends Model<IProduct> implements IProduct {
   quantity: number;
 
   // Goodie
-
   @AllowNull(false)
   @NotNull
-  @Column(DataType.ENUM('Dinosaur', 'Egg', 'Food', 'Goodie'))
-  type: string
+  @Column(DataType.ENUM("Dinosaur", "Egg", "Food", "Goodie"))
+  type: ProductType;
 
   @BelongsToMany(() => Order, () => OrderProduct)
   orders: Order[];
 
   @ForeignKey(() => Diet)
-  @Column
+  @Column(DataType.UUID)
   dietId: string;
 
   @BelongsTo(() => Diet)
   diet: Diet;
 
   @ForeignKey(() => Species)
-  @Column
+  @Column(DataType.NUMBER)
   teamId: number;
 
   @BelongsTo(() => Species)
   species: Species;
-
 }

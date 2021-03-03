@@ -4,16 +4,15 @@ import {
   MARIA_FORCE,
   MARIA_HOSTNAME,
   MARIA_LOG,
-
   MARIA_PASSWORD,
   MARIA_PORT,
   MARIA_USER
 } from "../config";
 import Adress from "./adress";
 import Client from "./client";
-import Delivery from "./delivery";
 import Diet from "./diet";
 import Order from "./order";
+import OrderProduct from "./order-product";
 import Payment from "./payment";
 import Product from "./product";
 import Species from "./species";
@@ -21,13 +20,13 @@ import Species from "./species";
 const sequelize = new Sequelize({
   dialect: "mariadb",
   models: [
-    Client,
-    Delivery,
     Adress,
+    Client,
+    Diet,
+    OrderProduct,
     Order,
     Payment,
     Product,
-    Diet,
     Species,
   ],
   dialectOptions: {
@@ -46,7 +45,6 @@ const sequelize = new Sequelize({
 
 export {
   Client,
-  Delivery,
   Adress,
   Order,
   Payment,

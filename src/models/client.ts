@@ -1,12 +1,36 @@
-import { AllowNull, Column, DataType, Default, HasMany, IsEmail, IsUUID, Length, Model, NotNull, PrimaryKey, Table, Unique } from "sequelize-typescript";
-import { Order } from ".";
+import { hash } from "bcrypt";
+import {
+  AllowNull,
+  BeforeCreate,
+  BeforeUpdate,
+  Column,
+  DataType,
+  Default,
+  HasMany,
+  IsEmail,
+  IsUUID,
+  Length,
+  Model,
+  NotNull,
+  PrimaryKey,
+  Table,
+  Unique
+} from "sequelize-typescript";
 import { IClient } from "../../types/models";
+import { SALT_ROUNDS } from "../config";
+import Order from "./order";
 
 @Table({
   charset: "utf8",
   timestamps: false,
 })
-export default class Client extends Model<IClient> implements IClient {
+export default class Client extends Model<Client> implements IClient {
+
+  @BeforeUpdate
+  @BeforeCreate
+  static async hashPassword(instance: Client) {
+    instance.password = await hash(instance.password, SALT_ROUNDS);
+  }
 
   @PrimaryKey
   @IsUUID(4)
@@ -39,18 +63,28 @@ export default class Client extends Model<IClient> implements IClient {
 
   @AllowNull(false)
   @NotNull
-  @Length({ min: 3, max: 20 })
+  @Unique
+  @Length({ min: 1, max: 20 })
   @Column(DataType.STRING)
   login: string;
 
-  // TODO: Create VIRTUAL password
-  // see https://sequelize.org/v3/api/datatypes/#virtual
   @AllowNull(false)
   @NotNull
   @Column(DataType.STRING)
-  password: string;
+  passwordHash: string;
+
+  @AllowNull(false)
+  @NotNull
+  @Length({ min: 8 })
+  @Column(DataType.VIRTUAL)
+  get password(): string {
+    return this.getDataValue("passwordHash");
+  }
+  set password(v: string) {
+    this.setDataValue("password", v);
+    this.setDataValue("passwordHash", v);
+  }
 
   @HasMany(() => Order)
   orders: Order[];
-  
 }

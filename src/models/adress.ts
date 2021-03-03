@@ -1,5 +1,18 @@
-import { AllowNull, Column, DataType, HasMany, Model, NotNull, Table } from "sequelize-typescript";
-import { Delivery } from ".";
+import {
+  AllowNull,
+  BelongsTo,
+  Column,
+  DataType,
+  Default,
+  ForeignKey,
+  HasMany,
+  IsUUID,
+  Model,
+  NotNull,
+  PrimaryKey,
+  Table
+} from "sequelize-typescript";
+import { Client } from ".";
 import { IAdress } from "../../types/models";
 import Payment from "./payment";
 
@@ -8,8 +21,11 @@ import Payment from "./payment";
   timestamps: false,
 })
 export default class Adress extends Model<IAdress> implements IAdress {
-  delivery: Delivery[];
-  payment: Payment[];
+  @PrimaryKey
+  @IsUUID(4)
+  @Default(DataType.UUIDV4)
+  @Column(DataType.UUID)
+  id: string;
 
   // TODO: Add validator @Is @Lenght
   @AllowNull(false)
@@ -38,10 +54,15 @@ export default class Adress extends Model<IAdress> implements IAdress {
   @Column(DataType.INTEGER)
   houseNumber: number;
 
-  @HasMany(() => Delivery)
-  deliveries: Delivery[];
+  @ForeignKey(() => Client)
+  @AllowNull(false)
+  @NotNull
+  @Column(DataType.UUID)
+  clientId: string;
 
   @HasMany(() => Payment)
   payments: Payment[];
 
+  @BelongsTo(() => Client)
+  client: Client;
 }

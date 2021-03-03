@@ -13,3 +13,8 @@ openssl req -x509 -out localhost.crt -keyout localhost.key \
    printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 ```
 Source: [letsencrypt.org](https://letsencrypt.org/docs/certificates-for-localhost#making-and-trusting-your-own-certificates)
+
+## TODO
+
+- [ ] Login / signup routes
+- [ ] Create / List / find (by name, species?) products routes

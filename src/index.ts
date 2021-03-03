@@ -5,13 +5,14 @@ import sequelize from "./models";
 import router from "./routes/router";
 import logger from "./utils/logger/singleton-logger";
 
+console.time("Start in");
+
 const app = new Koa()
   .use(router.routes())
   .use(router.allowedMethods())
   .use(API_LOG);
 
 http2.createSecureServer(API_CERT, app.callback()).listen(API_PORT, API_HOSTNAME, () => {
-  console.time("Start in");
   sequelize.authenticate().then(() => {
     logger.success(`Database mysql://${MARIA_HOSTNAME}:${MARIA_PORT}/${MARIA_DB} is connected`);
     logger.success(`Server listening at https://${API_HOSTNAME}:${API_PORT}${API_PREFIX}`);

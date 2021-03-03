@@ -9,9 +9,6 @@ import logger from "./utils/logger/singleton-logger";
 
 function parseBoolean(envVar: string): boolean {
   const str = process.env[envVar];
-  if (str === undefined || str === null) {
-    return false;
-  }
   const lowerCase = str.toLowerCase();
   if (lowerCase === "n") {
     return false;
@@ -22,6 +19,7 @@ function parseBoolean(envVar: string): boolean {
   logger.warn("{} is not valid value, so 'n' is used as fallback",
     { content: envVar, modifiers: "italic" },
   );
+  return false;
 }
 
 function readEnv() {
@@ -63,6 +61,8 @@ export const MARIA_PASSWORD = process.env.MARIA_PASSWORD;
 export const MARIA_LOG = loggerFactory(SequelizeLogger, process.env.MARIA_LOG_LEVEL, process.env.MARIA_LOG);
 export const MARIA_FORCE = parseBoolean("MARIA_FORCE");
 
+export const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
+
 export const STARTED = Date.now();
 
 try {
@@ -72,6 +72,7 @@ try {
   assert.ok(MARIA_PORT, "MARIA_PORT must be a number");
   assert.ok(MARIA_DB, "MARIA_DB must be provide");
   assert.ok(MARIA_USER, "MARIA_USER must be provide");
+  assert.ok(SALT_ROUNDS, "SALT_ROUNDS must be a valid number");
 } catch (error) {
   logger.error(error.message);
   process.exit(-1);

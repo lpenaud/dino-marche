@@ -15,7 +15,7 @@ import {
 } from "sequelize-typescript";
 import { Adress } from ".";
 import { IOrder } from "../../types/models";
-import Client from "./client";
+import Customer from "./customer";
 import OrderProduct from "./order-product";
 import Payment from "./payment";
 import Product from "./product";
@@ -38,7 +38,7 @@ export default class Order extends Model<IOrder> implements IOrder {
   @Column(DataType.DATE)
   orderDate: Date;
 
-  @ForeignKey(() => Client)
+  @ForeignKey(() => Customer)
   @AllowNull(false)
   @NotNull
   @Column(DataType.UUID)
@@ -50,8 +50,8 @@ export default class Order extends Model<IOrder> implements IOrder {
   @Column(DataType.UUID)
   adressId: string;
 
-  @BelongsTo(() => Client)
-  client: Client;
+  @BelongsTo(() => Customer)
+  client: Customer;
 
   @BelongsTo(() => Adress)
   delivery: Adress;

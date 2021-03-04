@@ -9,7 +9,7 @@ import {
   MARIA_USER
 } from "../config";
 import Adress from "./adress";
-import Client from "./client";
+import Customer from "./customer";
 import Diet from "./diet";
 import Order from "./order";
 import OrderProduct from "./order-product";
@@ -21,7 +21,7 @@ const sequelize = new Sequelize({
   dialect: "mariadb",
   models: [
     Adress,
-    Client,
+    Customer,
     Diet,
     OrderProduct,
     Order,
@@ -44,7 +44,7 @@ const sequelize = new Sequelize({
 } as SequelizeOptions);
 
 export {
-  Client,
+  Customer as Client,
   Adress,
   Order,
   Payment,

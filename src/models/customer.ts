@@ -16,7 +16,7 @@ import {
   Table,
   Unique
 } from "sequelize-typescript";
-import { IClient } from "../../types/models";
+import { ICustomer } from "../../types/models";
 import { SALT_ROUNDS } from "../config";
 import Order from "./order";
 
@@ -24,11 +24,11 @@ import Order from "./order";
   charset: "utf8",
   timestamps: false,
 })
-export default class Client extends Model<Client> implements IClient {
+export default class Customer extends Model<Customer> implements ICustomer {
 
   @BeforeUpdate
   @BeforeCreate
-  static async hashPassword(instance: Client) {
+  static async hashPassword(instance: Customer) {
     instance.password = await hash(instance.password, SALT_ROUNDS);
   }
 

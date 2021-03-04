@@ -8,7 +8,7 @@ export interface IAdress {
   payments: IPayment[];
 }
 
-export interface IClient {
+export interface ICustomer {
   id: string;
   lastName: string;
   name: string;
@@ -30,7 +30,7 @@ export interface IDiet {
 export interface IOrder {
   id: string;
   orderDate: Date;
-  client: IClient;
+  client: ICustomer;
   payment: IPayment;  
   products: IProduct[];
 }

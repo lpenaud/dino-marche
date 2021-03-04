@@ -28,9 +28,12 @@ export interface IDiet {
 }
 
 export interface IFeedback {
-  id: string;
+  customerId: string;
+  productId: string;
   text: string;
   stars: number;
+  product: IProduct;
+  customer: ICustomer;
 }
 
 export type ImageMimeType = "image/jpeg" | "image/png" | "image/webp";
@@ -77,6 +80,7 @@ export interface IProduct {
   diet: IDiet;
   species: ISpecies;
   images: IImage[];
+  feedbacks: IFeedback[];
 }
 
 export interface ISpecies { 

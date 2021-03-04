@@ -1,29 +1,39 @@
 import {
-    AllowNull,
-    Column,
-    DataType,
-    Default,
-    HasMany,
-    IsUUID,
-    Model,
-    NotNull,
-    PrimaryKey, Table,
+  AllowNull,
+  BelongsTo,
+  Column,
+  DataType,
+
+  Default,
+
+  ForeignKey,
+
+
+  Model,
+  NotNull,
+  PrimaryKey, Table
 } from "sequelize-typescript";
-  import { IFeedback } from "../../types/models";
-  import Product from "./product";
+import { Client } from ".";
+import { IFeedback } from "../../types/models";
+import Customer from "./customer";
+import Product from "./product";
 
   @Table({
     charset: "utf8",
     timestamps: false,
   })
   export default class Feedback extends Model<IFeedback> implements IFeedback {
+    @PrimaryKey
+    @ForeignKey(() => Client)
+    @Column(DataType.UUID)
+    customerId: string;
 
     @PrimaryKey
-    @IsUUID(4)
-    @Default(DataType.UUIDV4)
+    @ForeignKey(() => Product)
     @Column(DataType.UUID)
-    id: string;
-  
+    productId: string
+    
+    @Default("")
     @Column(DataType.STRING)
     text: string;
 
@@ -32,8 +42,10 @@ import {
     @Column(DataType.INTEGER)
     stars: number;
   
-    @HasMany(() => Product)
-    products: Product[];
-  
+    @BelongsTo(() => Product)
+    product: Product;
+
+    @BelongsTo(() => Customer)
+    customer: Customer
   }
   

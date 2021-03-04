@@ -6,6 +6,7 @@ import {
   DataType,
   Default,
   ForeignKey,
+  HasMany,
   IsUUID,
   Model,
   NotNull,
@@ -95,8 +96,8 @@ export default class Product extends Model<IProduct> implements IProduct {
   @BelongsTo(() => Species)
   species: Species;
 
-  @BelongsTo(() => Feedback)
-  feedback: Feedback;
+  @HasMany(() => Feedback)
+  feedbacks: Feedback[];
 
   @BelongsToMany(() => Image, () => ImageProduct)
   images: Image[];

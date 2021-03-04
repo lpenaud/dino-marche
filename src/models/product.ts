@@ -14,14 +14,17 @@ import {
 } from "sequelize-typescript";
 import { IProduct, ProductType } from "../../types/models";
 import Diet from "./diet";
+import Feedback from "./feedback";
+import Image from "./image";
+import ImageProduct from "./image-product";
 import Order from "./order";
 import OrderProduct from "./order-product";
 import Species from "./species";
-import Feedback from "./feedback";
 
 @Table({
   charset: "utf8",
   timestamps: true,
+  deletedAt: true,
 })
 export default class Product extends Model<IProduct> implements IProduct {
 
@@ -94,4 +97,7 @@ export default class Product extends Model<IProduct> implements IProduct {
 
   @BelongsTo(() => Feedback)
   feedback: Feedback;
+
+  @BelongsToMany(() => Image, () => ImageProduct)
+  images: Image[];
 }

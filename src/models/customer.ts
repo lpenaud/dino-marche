@@ -24,7 +24,7 @@ import Order from "./order";
   charset: "utf8",
   timestamps: false,
 })
-export default class Customer extends Model<Customer> implements ICustomer {
+export default class Customer extends Model<Partial<ICustomer>> implements ICustomer {
 
   @BeforeUpdate
   @BeforeCreate

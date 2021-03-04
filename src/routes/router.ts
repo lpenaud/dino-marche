@@ -1,16 +1,17 @@
-import * as Router from "koa-router";
+import Router = require("koa-router");
 import { API_PREFIX, STARTED } from "../config";
+import customerRouter from "./customer";
 
-const router = new Router({
+const apiRouter = new Router({
   prefix: API_PREFIX,
-});
+})
+  .get("/", (ctx, next) => {
+    ctx.body = {
+      started: STARTED,
+      uptime: Date.now() - STARTED,
+    };
+    next();
+  })
+  .use(customerRouter.routes());
 
-router.get("/", (ctx, next) => {
-  ctx.body = {
-    started: STARTED,
-    uptime: Date.now() - STARTED,
-  };
-  next();
-});
-
-export default router;
+export default apiRouter;

@@ -12,6 +12,8 @@ import Adress from "./adress";
 import Customer from "./customer";
 import Diet from "./diet";
 import Feedback from "./feedback";
+import Image from "./image";
+import ImageProduct from "./image-product";
 import Order from "./order";
 import OrderProduct from "./order-product";
 import Payment from "./payment";
@@ -25,6 +27,8 @@ const sequelize = new Sequelize({
     Customer,
     Diet,
     Feedback,
+    ImageProduct,
+    Image,
     OrderProduct,
     Order,
     Payment,

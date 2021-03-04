@@ -17,6 +17,7 @@ import Diet from "./diet";
 import Order from "./order";
 import OrderProduct from "./order-product";
 import Species from "./species";
+import Feedback from "./feedback";
 
 @Table({
   charset: "utf8",
@@ -90,4 +91,7 @@ export default class Product extends Model<IProduct> implements IProduct {
 
   @BelongsTo(() => Species)
   species: Species;
+
+  @BelongsTo(() => Feedback)
+  feedback: Feedback;
 }

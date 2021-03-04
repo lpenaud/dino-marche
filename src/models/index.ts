@@ -11,6 +11,7 @@ import {
 import Adress from "./adress";
 import Customer from "./customer";
 import Diet from "./diet";
+import Feedback from "./feedback";
 import Order from "./order";
 import OrderProduct from "./order-product";
 import Payment from "./payment";
@@ -23,6 +24,7 @@ const sequelize = new Sequelize({
     Adress,
     Customer,
     Diet,
+    Feedback,
     OrderProduct,
     Order,
     Payment,
@@ -46,10 +48,12 @@ const sequelize = new Sequelize({
 export {
   Customer as Client,
   Adress,
+  Diet,
+  Feedback,
+  OrderProduct,
   Order,
   Payment,
   Product,
-  Diet,
   Species,
 };
 

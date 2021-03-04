@@ -26,6 +26,12 @@ export interface IDiet {
   species: ISpecies[];
 }
 
+export interface IFeedback {
+  id: string;
+  text: string;
+  stars: number;
+}
+
 // Timestamps
 export interface IOrder {
   id: string;

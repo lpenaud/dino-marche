@@ -16,5 +16,5 @@ Source: [letsencrypt.org](https://letsencrypt.org/docs/certificates-for-localhos
 
 ## TODO
 
-- [ ] Login / signup routes
+- [x] Login / signup routes
 - [ ] Create / List / find (by name, species?) products routes

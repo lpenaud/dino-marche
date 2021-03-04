@@ -15,6 +15,7 @@ export interface ICustomer {
   phoneNumber: string;
   email: string;
   login: string;
+  passwordHash: string;
   password: string;
   orders: IOrder[];
 }
@@ -30,6 +31,14 @@ export interface IFeedback {
   id: string;
   text: string;
   stars: number;
+}
+
+export type ImageMimeType = "image/jpeg" | "image/png" | "image/webp";
+
+export interface IImage {
+  id: string;
+  mimeType: ImageMimeType;
+  pathname: string;
 }
 
 // Timestamps
@@ -67,6 +76,7 @@ export interface IProduct {
   orders: IOrder[];
   diet: IDiet;
   species: ISpecies;
+  images: IImage[];
 }
 
 export interface ISpecies { 

@@ -2,6 +2,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
+import { parseAlg } from "./utils/jwt";
 import KoaLogger from "./utils/logger/koa-logger";
 import loggerFactory from "./utils/logger/logger-factory";
 import SequelizeLogger from "./utils/logger/sequelize-logger";
@@ -63,16 +64,28 @@ export const MARIA_FORCE = parseBoolean("MARIA_FORCE");
 
 export const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
 
+export const DIR_IMAGE = path.resolve(process.env.DIR_IMAGE);
+fs.mkdirSync(DIR_IMAGE, { recursive: true });
+
+export const JWT_ALGORITHM = parseAlg(process.env.JWT_ALGORITHM);
+export const JWT_SECRET = process.env.JWT_SECRET;
+export const JWT_EXP = parseInt(process.env.JWT_EXP);
+
+export const ALLOWED_HOSTS = new RegExp("^" + process.env.ALLOWED_HOSTS);
+
 export const STARTED = Date.now();
 
 try {
   assert.ok(API_PORT, "API_PORT must be a number");
   assert.ok(/^[0-9A-Za-z/]+$/.test(API_PREFIX), "API_PREFIX must only be number and letters");
   assert.ok(MARIA_HOSTNAME, "MARIA_HOST must be provide");
-  assert.ok(MARIA_PORT, "MARIA_PORT must be a number");
+  assert.ok(MARIA_PORT, "MARIA_PORT must be a int");
   assert.ok(MARIA_DB, "MARIA_DB must be provide");
   assert.ok(MARIA_USER, "MARIA_USER must be provide");
   assert.ok(SALT_ROUNDS, "SALT_ROUNDS must be a valid number");
+  assert.ok(DIR_IMAGE, "DIR_IMAGE must be valid path");
+  assert.ok(JWT_SECRET, "JWT_SECRET must be provide");
+  assert.ok(JWT_EXP, "JWT_TTL must be a int");
 } catch (error) {
   logger.error(error.message);
   process.exit(-1);

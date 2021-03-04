@@ -90,8 +90,8 @@ export default class Product extends Model<IProduct> implements IProduct {
   diet: Diet;
 
   @ForeignKey(() => Species)
-  @Column(DataType.NUMBER)
-  teamId: number;
+  @Column(DataType.UUID)
+  speciesId: number;
 
   @BelongsTo(() => Species)
   species: Species;

@@ -9,43 +9,49 @@ import {
   ForeignKey,
 
 
+  Max,
+
+
+  Min,
+
+
   Model,
   NotNull,
   PrimaryKey, Table
 } from "sequelize-typescript";
-import { Client } from ".";
 import { IFeedback } from "../../types/models";
 import Customer from "./customer";
 import Product from "./product";
 
-  @Table({
-    charset: "utf8",
-    timestamps: false,
-  })
-  export default class Feedback extends Model<IFeedback> implements IFeedback {
-    @PrimaryKey
-    @ForeignKey(() => Client)
-    @Column(DataType.UUID)
-    customerId: string;
+@Table({
+  charset: "utf8",
+  timestamps: false,
+})
+export default class Feedback extends Model<IFeedback> implements IFeedback {
+  @PrimaryKey
+  @ForeignKey(() => Customer)
+  @Column(DataType.UUID)
+  customerId: string;
 
-    @PrimaryKey
-    @ForeignKey(() => Product)
-    @Column(DataType.UUID)
-    productId: string
-    
-    @Default("")
-    @Column(DataType.STRING)
-    text: string;
+  @PrimaryKey
+  @ForeignKey(() => Product)
+  @Column(DataType.UUID)
+  productId: string
 
-    @AllowNull(false)
-    @NotNull
-    @Column(DataType.INTEGER)
-    stars: number;
-  
-    @BelongsTo(() => Product)
-    product: Product;
+  @Default("")
+  @Column(DataType.STRING)
+  text: string;
 
-    @BelongsTo(() => Customer)
-    customer: Customer
-  }
-  
+  @AllowNull(false)
+  @NotNull
+  @Min(0)
+  @Max(5)
+  @Column(DataType.TINYINT({ unsigned: true, length: 5 }))
+  stars: number;
+
+  @BelongsTo(() => Product)
+  product: Product;
+
+  @BelongsTo(() => Customer)
+  customer: Customer
+}

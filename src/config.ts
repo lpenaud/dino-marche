@@ -71,7 +71,7 @@ export const JWT_ALGORITHM = parseAlg(process.env.JWT_ALGORITHM);
 export const JWT_SECRET = process.env.JWT_SECRET;
 export const JWT_EXP = parseInt(process.env.JWT_EXP);
 
-export const ALLOWED_HOSTS = new RegExp("^" + process.env.ALLOWED_HOSTS);
+export const ALLOWED_HOSTS = new RegExp("^https?:\/\/" + process.env.ALLOWED_HOSTS);
 
 export const STARTED = Date.now();
 

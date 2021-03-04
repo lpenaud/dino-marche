@@ -1,7 +1,7 @@
 import { Sequelize, SequelizeOptions } from "sequelize-typescript";
 import {
   MARIA_DB,
-  MARIA_FORCE,
+
   MARIA_HOSTNAME,
   MARIA_LOG,
   MARIA_PASSWORD,
@@ -44,16 +44,15 @@ const sequelize = new Sequelize({
   port: MARIA_PORT,
   username: MARIA_USER,
   logging: MARIA_LOG,
-  sync: {
-    force: MARIA_FORCE,
-  }
 } as SequelizeOptions);
 
 export {
-  Customer as Client,
   Adress,
+  Customer,
   Diet,
   Feedback,
+  ImageProduct,
+  Image,
   OrderProduct,
   Order,
   Payment,

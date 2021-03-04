@@ -12,8 +12,8 @@ import {
   PrimaryKey,
   Table
 } from "sequelize-typescript";
-import { Client } from ".";
 import { IAdress } from "../../types/models";
+import Customer from "./customer";
 import Payment from "./payment";
 
 @Table({
@@ -54,7 +54,7 @@ export default class Adress extends Model<IAdress> implements IAdress {
   @Column(DataType.INTEGER)
   houseNumber: number;
 
-  @ForeignKey(() => Client)
+  @ForeignKey(() => Customer)
   @AllowNull(false)
   @NotNull
   @Column(DataType.UUID)
@@ -63,6 +63,6 @@ export default class Adress extends Model<IAdress> implements IAdress {
   @HasMany(() => Payment)
   payments: Payment[];
 
-  @BelongsTo(() => Client)
-  client: Client;
+  @BelongsTo(() => Customer)
+  customer: Customer;
 }

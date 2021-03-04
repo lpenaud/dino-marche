@@ -1,4 +1,3 @@
-import { hash } from "bcrypt";
 import {
   AllowNull,
   BeforeCreate,
@@ -17,7 +16,7 @@ import {
   Unique
 } from "sequelize-typescript";
 import { ICustomer } from "../../types/models";
-import { SALT_ROUNDS } from "../config";
+import { hash } from "../utils/bcrypt";
 import Order from "./order";
 
 @Table({
@@ -28,8 +27,8 @@ export default class Customer extends Model<Partial<ICustomer>> implements ICust
 
   @BeforeUpdate
   @BeforeCreate
-  static async hashPassword(instance: Customer) {
-    instance.password = await hash(instance.password, SALT_ROUNDS);
+  static async beforeUpdateCreate(instance: Customer) {
+    instance.password = await hash(instance.password);
   }
 
   @PrimaryKey

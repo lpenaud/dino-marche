@@ -1,0 +1,5 @@
+Autres noms : "Lézard à bras"
+Régime : Herbivore
+Taille : 9
+Longueur : 27
+Poids : 30

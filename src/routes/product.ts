@@ -38,12 +38,12 @@ function getFindOptions(): FindOptions<IProduct> {
 function productMap(p: Product) {
   return {
     id: p.id,
-    images: p.images.map(i => i.pathname),
+    images: p.images.map(i => `/image/${i.id}`),
     name: p.name,
-    alias: p.species.otherName,
+    alias: p.species?.otherName,
     description: p.description,
-    rate: intMoy(0, ...p.feedbacks.map(f => f.stars)),
-    reviewsNumber: p.feedbacks.length,
+    rate: p.feedbacks !== undefined && p.feedbacks.length > 0 ? intMoy(0, ...p.feedbacks.map(f => f.stars)) : 5,
+    reviewsNumber: p.feedbacks !== undefined ? p.feedbacks.length : 1,
     price: p.price,
     type: p.type,
   }
@@ -66,7 +66,7 @@ class ErrorCustomer extends Error {
 
 async function getCustomerFromHeader(header: IncomingHttpHeaders): Promise<Customer> {
   const user = await jwt.verify<{ login: string }>(header.authorization);
-  if (user !== undefined) {
+  if (user === undefined) {
     throw new ErrorCustomer("Unauthorized", 401);
   }
   const customer = await Customer.findOne({
@@ -80,38 +80,57 @@ async function getCustomerFromHeader(header: IncomingHttpHeaders): Promise<Custo
   return customer;
 }
 
+async function moveFile(src: string, dest: string): Promise<void> {
+  await fs.copyFile(src, dest);
+  await fs.rm(src);
+}
+
 const productRouter = new Router({
   prefix: "/product",
 })
 .post("/", async (ctx, next) => {
-  const images = Array.isArray(ctx.request.files.images) 
-    ? ctx.request.files.images 
-    : [ctx.request.files.images];
+  if (ctx.request.files === undefined) {
+    ctx.throw(400);
+    next();
+    return;
+  }
+  const images = Array.isArray(ctx.request.files.image) 
+  ? ctx.request.files.image 
+  : [ctx.request.files.image];
   try {
-    const product = await Product.create({
-        images: images.map(prepareImage),
+    const data: {[key: string]: any} = {
+      images: images.map(prepareImage),
+      name: ctx.request.body.name,
+      description: ctx.request.body.description,
+      rate: 5,
+      price: parseFloat(ctx.request.body.price),
+      type: ctx.request.body.type,
+    };
+    if (data.type === "Dinosaur") {
+      data.species = {
+        otherName: ctx.request.body.alias,
         name: ctx.request.body.name,
-        description: ctx.request.body.description,
-        rate: 5,
-        price: parseFloat(ctx.request.body.price),
-        type: ctx.request.body.type,
-      } as unknown as IProduct, { include: [
+      };
+    }
+    const product = await Product.create(data as any, { include: [
         Product.FEEDBACK_ASSOCIATION,
         Product.IMAGE_ASSOCIATION,
         Product.SPECIES_ASSOCIATION,
       ]});
-      await Promise.all(product.images.map((img, i) => fs.copyFile(images[i].path, img.pathname)));
+      await Promise.all(product.images.map((img, i) => moveFile(images[i].path, img.pathname)));
       ctx.body = productMap(product);
   } catch (error) {
+    console.error(error);
     ctx.throw(418);
   }
+  next();
 })
 .get("/", async (ctx, next) => {
   const findOptions = getFindOptions();
   const type = ctx.URL.searchParams.get("type");
   if (type !== undefined) {
     findOptions.where = {
-      type,
+      type: ctx.URL.searchParams.get("type"),
     }
   }
   const products = await Product.findAll(findOptions);
@@ -120,18 +139,22 @@ const productRouter = new Router({
   };
   next();
 })
-.get("/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/", async (ctx, next) => {
+.get("/:id", async (ctx, next) => {
   const findOptions = getFindOptions();
-  findOptions.include[0].attributes.push("text");
+  findOptions.include[0].attributes.push("text", "title");
+  findOptions.where = {
+    id: ctx.params.id,
+  };
   const product = await Product.findOne(findOptions);
   if (product === null) {
     ctx.throw(404);
   } else {
     ctx.body = productMap(product);
+    ctx.body.reviews = product.feedbacks.map(v => ({ text: v.text, rate: v.stars, title: v.title }));
   }
   next();
 })
-.post("/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/feedback", async (ctx, next) => {
+.post("/:id/feedback", async (ctx, next) => {
   let customer: Customer;
   try {
     customer = await getCustomerFromHeader(ctx.request.header);
@@ -141,19 +164,21 @@ const productRouter = new Router({
     return;
   }
   try {
-    const feedback = new Feedback({
+    const feedback = await Feedback.create({
       customerId: customer.id,
-      stars: parseInt(ctx.request.body.stars),
+      stars: parseInt(ctx.request.body.rate),
       text: ctx.request.body.text,
       title: ctx.request.body.title,
+      productId: ctx.params.id,
     } as IFeedback);
     ctx.status = 201;
     ctx.body = {
-      stars: feedback.stars,
+      rate: feedback.stars,
       text: feedback.text,
       title: feedback.title,
     };
   } catch (error) {
+    console.error(error);
     ctx.throw(418);
     next();
   }

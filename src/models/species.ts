@@ -37,18 +37,12 @@ export default class Species extends Model<ISpecies> implements ISpecies {
   @Column(DataType.STRING)
   otherName: string;
 
-  @AllowNull(false)
-  @NotNull
   @Column(DataType.DOUBLE)
   size: number;
 
-  @AllowNull(false)
-  @NotNull
   @Column(DataType.DOUBLE)
   length: number;
 
-  @AllowNull(false)
-  @NotNull
   @Column(DataType.DOUBLE)
   weight: number;
 

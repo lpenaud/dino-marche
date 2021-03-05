@@ -1,6 +1,7 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
+import * as os from "os";
 import * as path from "path";
 import { parseAlg } from "./utils/jwt";
 import KoaLogger from "./utils/logger/koa-logger";
@@ -40,6 +41,13 @@ function readEnv() {
   Object.assign(process.env, result.parsed);
 }
 
+function getAllowedHosts(): RegExp {
+  const hosts = process.env.ALLOWED_HOSTS
+    .split(",")
+    .map(v => v.trim().replace(/\./g, "\\."));
+  return new RegExp(`^https?:\/\/${hosts.join("|")}`);
+}
+
 dotenv.config({
   path: path.join(process.cwd(), ".env.sample"),
 });
@@ -65,13 +73,16 @@ export const MARIA_FORCE = parseBoolean("MARIA_FORCE");
 export const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
 
 export const DIR_IMAGE = path.resolve(process.env.DIR_IMAGE);
+fs.rmSync(DIR_IMAGE, { recursive: true });
 fs.mkdirSync(DIR_IMAGE, { recursive: true });
 
 export const JWT_ALGORITHM = parseAlg(process.env.JWT_ALGORITHM);
 export const JWT_SECRET = process.env.JWT_SECRET;
 export const JWT_EXP = parseInt(process.env.JWT_EXP);
 
-export const ALLOWED_HOSTS = new RegExp("^https?:\/\/" + process.env.ALLOWED_HOSTS);
+export const TMP_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "dino-marche-"));
+
+export const ALLOWED_HOSTS = getAllowedHosts();
 
 export const STARTED = Date.now();
 

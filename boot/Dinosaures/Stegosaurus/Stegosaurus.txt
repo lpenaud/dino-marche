@@ -1,0 +1,5 @@
+Autres noms : "Lézard à toit"
+Régime : Herbivore
+Taille : 4
+Longueur : 9
+Poids : 4

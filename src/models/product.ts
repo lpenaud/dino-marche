@@ -53,11 +53,6 @@ export default class Product extends Model<IProduct> implements IProduct {
 
   @AllowNull(false)
   @NotNull
-  @Column(DataType.INTEGER)
-  stock: number;
-
-  @AllowNull(false)
-  @NotNull
   @Column(DataType.DOUBLE)
   price: number;
 
@@ -67,20 +62,14 @@ export default class Product extends Model<IProduct> implements IProduct {
   description: string;
 
   // Egg
-  @AllowNull(false)
-  @NotNull
   @Column(DataType.DATE)
   layDate: Date;
 
   // Dinosaur
-  @AllowNull(false)
-  @NotNull
   @Column(DataType.DATE)
   hatchDate: Date;
 
   // Food
-  @AllowNull(false)
-  @NotNull
   @Column(DataType.DOUBLE)
   quantity: number;
 

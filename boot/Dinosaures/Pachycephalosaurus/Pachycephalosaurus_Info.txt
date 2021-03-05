@@ -1,0 +1,5 @@
+Autres noms : "Lézard au crâne épais"
+Régime : Herbivore
+Taille : 2
+Longueur : 5
+Poids : 0.450

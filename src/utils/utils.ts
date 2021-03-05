@@ -20,3 +20,15 @@ export async function randomString(size: number, radix: number = 36): Promise<st
   return buf.reduce((result, val) => result + val.toString(radix), "")
     .substr(0, size);
 }
+
+export function isEmptyObject(value?: object | null): boolean {
+  if (value === null || value === undefined) {
+    return true;
+  }
+  for (const key in value) {
+    if (Object.prototype.hasOwnProperty.call(value, key)) {
+      return false;
+    }
+  }
+  return true;
+}

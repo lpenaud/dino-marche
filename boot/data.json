@@ -1,0 +1,216 @@
+{
+	"products": [
+		{
+			"name": "Allosaurus",
+			"alias": "Lézard différent",
+			"description": "Dinosaure adulte, carnivore d'une taille d'environ 4.3 mètres, d'une longueur de 9 à 12 mètres et d'un poids de 2.3 tonnes en moyenne.",
+			"rate": 5,
+			"price": 10000,
+			"type": "Dinosaur"
+		},
+		{
+			"name": "Baryonyx",
+			"alias": "Griffes puissantes",
+			"description": "Dinosaure adulte, piscivore et carnivore d'une taille d'environ 2.5 mètres, d'une longueur de 9.5 mètres en moyenne et d'un poids de 1.7 à 2.5 tonnes.",
+			"rate": 5,
+			"price": 20000,
+			"type": "Dinosaur"
+		},
+		{
+			"name": "Brachiosaurus",
+			"alias": "Lézard à bras",
+			"description": "Dinosaure adulte, herbivore d'une taille d'environ 9 mètres, d'une longueur de 27 mètres en moyenne et d'un poids de 30 tonnes en moyenne.",
+			"rate": 5,
+			"price": 40000,
+			"type": "Dinosaur"
+		},
+		{
+			"name": "Carnotaurus",
+			"alias": "Taureau carnivore",
+			"description": "Dinosaure adulte, carnivore d'une taille d'environ 3.5 mètres, d'une longueur de 6 à 8 mètres et d'un poids de 1.5 tonnes en moyenne.",
+			"rate": 5,
+			"price": 20000,
+			"type": "Dinosaur"
+		},
+		{
+			"name": "Edmontosaurus",
+			"alias": "Lézard d'Edmonton",
+			"description": "Dinosaure adulte, herbivore d'une taille d'environ 3 mètres, d'une longueur de 12 à 13 mètres et d'un poids de 5 tonnes en moyenne.",
+			"rate": 5,
+			"price": 10000,
+			"type": "Dinosaur"
+		},
+		{
+			"name": "Indominus Rex",
+			"alias": "Roi indomptable",
+			"description": "Dinosaure adulte hybride principalement crée à partir de Tyrannosaurus Rex et de Vélociraptor, carnivore d'une taille d'environ 6 mètres, d'une longueur de 15 mètres en moyenne et d'un poids très variable.",
+			"rate": 5,
+			"price": 1000000,
+			"type": "Dinosaur"
+		},
+		{
+			"name": "Metriacanthosaurus",
+			"alias": "Lézard modérément épineux",
+			"description": "Dinosaure adulte, carnivore d'une taille d'environ 3.5 mètres, d'une longueur de 8 mètres en moyenne et d'un poids de 2 tonnes en moyenne.",
+			"rate": 5,
+			"price": 10000,
+			"type": "Dinosaur"
+		},
+		{
+			"name": "Parasaurolophus",
+			"alias": "Reptile à crêtes à cloisons parallèles",
+			"description": "Dinosaure adulte, herbivore d'une taille d'environ 4 mètres, d'une longueur de 10 mètres en moyenne et d'un poids de 4 à 5 tonnes.",
+			"rate": 5,
+			"price": 12000,
+			"type": "Dinosaur"
+		},
+		{
+			"name": "Proceratosaurus",
+			"alias": "Avant le lézard à corne",
+			"description": "Dinosaure adulte, carnivore d'une taille d'environ 0.9 mètres, d'une longueur de 3 mètres en moyenne et d'un poids de 200 kilos en moyenne.",
+			"rate": 5,
+			"price": 5000,
+			"type": "Dinosaur"
+		},
+		{
+			"name": "Pteranodon",
+			"alias": "Aile sans dents",
+			"description": "Dinosaure adulte volant, piscivore d'une taille d'environ 2 mètres, d'une longueur de 8 à 10 mètres et d'un poids de 25 kilos en moyenne.",
+			"rate": 5,
+			"price": 7500,
+			"type": "Dinosaur"
+		},
+		{
+			"name": "Spinosaurus",
+			"alias": "Lézard à épines",
+			"description": "Dinosaure adulte, piscivore et carnivore d'une taille de 6 à 7 mètres, d'une longueur de 13.5 à 15.5 mètres et d'un poids de 10.5 tonnes en moyenne.",
+			"rate": 5,
+			"price": 25000,
+			"type": "Dinosaur"
+		},
+		{
+			"name": "Stegosaurus",
+			"alias": "Lézard à toit",
+			"description": "Dinosaure adulte, herbivore d'une taille d'environ 4 mètres, d'une longueur de 9 mètres en moyenne et d'un poids de 4 tonnes en moyenne.",
+			"rate": 5,
+			"price": 6000,
+			"type": "Dinosaur"
+		},
+		{
+			"name": "Stygimoloch",
+			"alias": "Démon du Styx",
+			"description": "Dinosaure adulte, herbivore d'une taille d'environ 1 mètres, d'une longueur de 2 à 3 mètres et d'un poids de 80 kilos en moyenne.",
+			"rate": 5,
+			"price": 4000,
+			"type": "Dinosaur"
+		},
+		{
+			"name": "Suchomimus",
+			"alias": "Qui imite le crocodile",
+			"description": "Dinosaure adulte, piscivore et carnivore d'une taille de 3.5 à 5 mètres, d'une longueur de 11 à 13 mètres et d'un poids de 3 à 6 tonnes.",
+			"rate": 5,
+			"price": 1500,
+			"type": "Dinosaur"
+		},
+		{
+			"name": "Troodon",
+			"alias": "Dent blessante",
+			"description": "Dinosaure adulte, omnivore d'une taille d'environ 1 mètres, d'une longueur de 3 mètres en moyenne et d'un poids de 50 kilos en moyenne.",
+			"rate": 5,
+			"price": 250,
+			"type": "Dinosaur"
+		},
+		{
+			"name": "Tyrannosaurus Rex",
+			"alias": "Roi des lézars tyrans",
+			"description": "Dinosaure adulte, carnivore d'une taille d'environ 4 mètres, d'une longueur de 13.1 mètres en moyenne et d'un poids de 7 tonnes en moyenne.",
+			"rate": 5,
+			"price": 5000,
+			"type": "Dinosaur"
+		},
+		{
+			"name": "Nourriture pour carnivores",
+			"description": "Sachet de 20 kilos de nourriture pour carnivores.",
+			"rate": 5,
+			"price": 200,
+			"type": "Food",
+			"image": "Carnivore.jpg"
+		},
+		{
+			"name": "Nourriture pour piscivores",
+			"description": "Sachet de 20 kilos de nourriture pour piscivores.",
+			"rate": 5,
+			"price": 150,
+			"type": "Food",
+			"image": "Piscivore.jpg"
+		},
+		{
+			"name": "Nourriture pour herbivores",
+			"description": "Sachet de 20 kilos de nourriture pour herbivores.",
+			"rate": 5,
+			"price": 100,
+			"type": "Food",
+			"image": "Herbivore.jpg"
+		},
+		{
+			"name": "Nourriture pour omnivores",
+			"description": "Sachet de 20 kilos de nourriture pour omnivores.",
+			"rate": 5,
+			"price": 300,
+			"type": "Food",
+			"image": "Omnivore.jpg"
+		},
+		{
+			"name": "T-shirt Tea-Rex",
+			"description": "T-shirt Tea-Rex.",
+			"rate": 5,
+			"price": 20,
+			"type": "Goodie",
+			"image": "shirt_1.jpg"
+		},
+		{
+			"name": "T-shirt Dinosaure Vert",
+			"description": "T-shirt Dinosaure Vert",
+			"rate": 5,
+			"price": 20,
+			"type": "Goodie",
+			"image": "shirt_2.jpg"
+		},
+		{
+			"name": "T-shirt Dinosaure The Mountain",
+			"description": "T-shirt Dinosaure The Mountain.",
+			"rate": 5,
+			"price": 20,
+			"type": "Goodie",
+			"image": "shirt_3.jpg"
+		},
+		{
+			"name": "Funko POP Stygimoloch",
+			"description": "Funko POP Stygimoloch",
+			"rate": 5,
+			"price": 30,
+			"type": "Goodie",
+			"image": "stygimoloch-funko-pop.jpg"
+		},
+		{
+			"name": "Funko POP Tyrannosaurus Rex",
+			"description": "Funko POP Stygimoloch",
+			"rate": 5,
+			"price": 30,
+			"type": "Goodie",
+			"image": "tyrannosaurus-rex-funko-pop.jpg"
+		}
+	],
+	"feedback": [
+		{
+			"rate": 5,
+			"text": "Conforme à la commande",
+			"title": "Parfait."
+		},
+		{
+			"rate": 3,
+			"text": "Je suis ravi de ma commande bien qu'il a mangé mon chien...",
+			"title": "Excellent."
+		}
+	]
+}

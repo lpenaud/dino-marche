@@ -70,12 +70,10 @@ export type ProductType = "Dinosaur" | "Egg" | "Food" | "Goodie";
 export interface IProduct {
   id: string;
   name: string;
-  stock: number;
   price: number;
   description: string;
   layDate: Date;
   hatchDate: Date;
-  quantity: number;
   type: ProductType;
   orders: IOrder[];
   diet: IDiet;

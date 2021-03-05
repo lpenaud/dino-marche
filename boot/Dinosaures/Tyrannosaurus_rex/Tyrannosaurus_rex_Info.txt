@@ -1,0 +1,5 @@
+Autres noms : "Roi des lézars tyrans"
+Régime : Carnivore
+Taille : 4
+Longueur : 13.1
+Poids : 7

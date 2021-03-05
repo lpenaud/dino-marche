@@ -1,0 +1,5 @@
+Autres noms : "Voleur rapide"
+Régime : Carnivore
+Taille : 2
+Longueur : 3 
+Poids : 0.136

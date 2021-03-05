@@ -34,6 +34,7 @@ export interface IFeedback {
   stars: number;
   product: IProduct;
   customer: ICustomer;
+  title: string;
 }
 
 export type ImageMimeType = "image/jpeg" | "image/png" | "image/webp";

@@ -1,9 +1,11 @@
 import Router = require("koa-router");
 import { File } from "formidable";
 import * as fs from "fs/promises";
+import type { IncomingHttpHeaders } from "http";
 import { FindOptions } from "sequelize";
-import { IImage, IProduct } from "../../types/models";
-import { Product } from "../models";
+import { IFeedback, IImage, IProduct } from "../../types/models";
+import { Customer, Feedback, Product } from "../models";
+import * as jwt from "../utils/jwt";
 import { intMoy } from "../utils/utils";
 
 function getFindOptions(): FindOptions<IProduct> {
@@ -53,6 +55,31 @@ function prepareImage(file: File): IImage {
   } as IImage;
 }
 
+class ErrorCustomer extends Error {
+  constructor(msg: string, code: number) {
+    super(msg);
+    this.code;
+  }
+
+  code: number;
+}
+
+async function getCustomerFromHeader(header: IncomingHttpHeaders): Promise<Customer> {
+  const user = await jwt.verify<{ login: string }>(header.authorization);
+  if (user !== undefined) {
+    throw new ErrorCustomer("Unauthorized", 401);
+  }
+  const customer = await Customer.findOne({
+    where: {
+      login: user.login,
+    }
+  });
+  if (customer === null) {
+    throw new ErrorCustomer("Not Found", 404);
+  }
+  return customer;
+}
+
 const productRouter = new Router({
   prefix: "/product",
 })
@@ -80,20 +107,56 @@ const productRouter = new Router({
   }
 })
 .get("/", async (ctx, next) => {
-  const products = await Product.findAll(getFindOptions());
+  const findOptions = getFindOptions();
+  const type = ctx.URL.searchParams.get("type");
+  if (type !== undefined) {
+    findOptions.where = {
+      type,
+    }
+  }
+  const products = await Product.findAll(findOptions);
   ctx.body = {
     products: products.map(productMap),
   };
   next();
 })
 .get("/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/", async (ctx, next) => {
-  const product = await Product.findOne(getFindOptions());
+  const findOptions = getFindOptions();
+  findOptions.include[0].attributes.push("text");
+  const product = await Product.findOne(findOptions);
   if (product === null) {
     ctx.throw(404);
   } else {
     ctx.body = productMap(product);
   }
   next();
+})
+.post("/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/feedback", async (ctx, next) => {
+  let customer: Customer;
+  try {
+    customer = await getCustomerFromHeader(ctx.request.header);
+  } catch (error) {
+    ctx.throw(error.number);
+    next();
+    return;
+  }
+  try {
+    const feedback = new Feedback({
+      customerId: customer.id,
+      stars: parseInt(ctx.request.body.stars),
+      text: ctx.request.body.text,
+      title: ctx.request.body.title,
+    } as IFeedback);
+    ctx.status = 201;
+    ctx.body = {
+      stars: feedback.stars,
+      text: feedback.text,
+      title: feedback.title,
+    };
+  } catch (error) {
+    ctx.throw(418);
+    next();
+  }
 })
 
 export default productRouter;

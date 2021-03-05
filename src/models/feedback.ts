@@ -41,6 +41,9 @@ export default class Feedback extends Model<IFeedback> implements IFeedback {
   @Column(DataType.TINYINT({ unsigned: true, length: 5 }))
   stars: number;
 
+  @Column(DataType.STRING)
+  title: string;
+
   @BelongsTo(() => Product)
   product: Product;
 

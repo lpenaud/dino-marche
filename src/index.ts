@@ -19,11 +19,7 @@ const app = new Koa()
   .use(API_LOG);
 
 async function sequelizeConnect(): Promise<void> {
-  if (MARIA_FORCE) {
-    await sequelize.sync({ force: MARIA_FORCE });
-  } else {
-    sequelize.authenticate();
-  }
+  await sequelize.sync({ force: MARIA_FORCE });
 }
 
 http2.createSecureServer(API_CERT, app.callback()).listen(API_PORT, API_HOSTNAME, () => {

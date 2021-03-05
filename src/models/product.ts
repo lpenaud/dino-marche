@@ -28,6 +28,17 @@ import Species from "./species";
   deletedAt: true,
 })
 export default class Product extends Model<IProduct> implements IProduct {
+  static get FEEDBACK_ASSOCIATION(): string {
+    return "feedbacks";
+  }
+
+  static get IMAGE_ASSOCIATION(): string {
+    return "images";
+  }
+
+  static get SPECIES_ASSOCIATION(): string {
+    return "species"
+  }
 
   @PrimaryKey
   @IsUUID(4)

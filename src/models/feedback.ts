@@ -3,18 +3,10 @@ import {
   BelongsTo,
   Column,
   DataType,
-
   Default,
-
   ForeignKey,
-
-
   Max,
-
-
   Min,
-
-
   Model,
   NotNull,
   PrimaryKey, Table

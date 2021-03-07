@@ -52,10 +52,10 @@ async function sequelizeConnect(): Promise<void> {
     logger.success(`Database mysql://${MARIA_HOSTNAME}:${MARIA_PORT}/${MARIA_DB} is connected`);
     logger.success(`Server listening at https://${API_HOSTNAME}:${API_PORT}${API_PREFIX}`);
     logger.timeEnd("Start in");
-    app.use(API_LOG);
     if (MARIA_FORCE) {
       await boot();
     }
+    app.use(API_LOG);
   } catch (error) {
     logger.error("Unable to connect to MariaDB");
     throw error;

@@ -73,7 +73,7 @@ export const MARIA_FORCE = parseBoolean("MARIA_FORCE");
 export const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
 
 export const DIR_IMAGE = path.resolve(process.env.DIR_IMAGE);
-fs.rmSync(DIR_IMAGE, { recursive: true });
+fs.rmSync(DIR_IMAGE, { recursive: true, force: true });
 fs.mkdirSync(DIR_IMAGE, { recursive: true });
 
 export const JWT_ALGORITHM = parseAlg(process.env.JWT_ALGORITHM);

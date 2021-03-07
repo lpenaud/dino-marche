@@ -19,10 +19,10 @@ function getWriteStream(filename: string): NodeJS.WritableStream {
 
 function parseLogLevel(level: string): LogLevel {
   const levels: LogLevel[] = ["debug", "info", "log", "warn", "error"];
-  if (levels.some(l => l === level)) {
+  if (levels.includes(level as LogLevel)) {
     return level as LogLevel;
   }
-  singletonLogger.warn(`Unknow level '${level}' log is used as fallback`);
+  singletonLogger.warn(`Unknow level '${level}', log is used as fallback`);
   return "log";
 }
 

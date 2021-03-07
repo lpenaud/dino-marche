@@ -1,9 +1,10 @@
-import Router = require("koa-router");
+import * as Router from "@koa/router";
 import { File } from "formidable";
 import * as fs from "fs/promises";
 import type { IncomingHttpHeaders } from "http";
 import { FindOptions } from "sequelize";
 import { IFeedback, IImage, IProduct } from "../../types/models";
+import { UUID4_PATH_TEST } from "../config";
 import { Customer, Feedback, Product } from "../models";
 import * as jwt from "../utils/jwt";
 import { intMoy } from "../utils/utils";
@@ -87,45 +88,7 @@ async function moveFile(src: string, dest: string): Promise<void> {
 
 const productRouter = new Router({
   prefix: "/product",
-})
-.post("/", async (ctx, next) => {
-  if (ctx.request.files === undefined) {
-    ctx.throw(400);
-    next();
-    return;
-  }
-  const images = Array.isArray(ctx.request.files.image) 
-  ? ctx.request.files.image 
-  : [ctx.request.files.image];
-  try {
-    const data: {[key: string]: any} = {
-      images: images.map(prepareImage),
-      name: ctx.request.body.name,
-      description: ctx.request.body.description,
-      rate: 5,
-      price: parseFloat(ctx.request.body.price),
-      type: ctx.request.body.type,
-    };
-    if (data.type === "Dinosaur") {
-      data.species = {
-        otherName: ctx.request.body.alias,
-        name: ctx.request.body.name,
-      };
-    }
-    const product = await Product.create(data as any, { include: [
-        Product.FEEDBACK_ASSOCIATION,
-        Product.IMAGE_ASSOCIATION,
-        Product.SPECIES_ASSOCIATION,
-      ]});
-      await Promise.all(product.images.map((img, i) => moveFile(images[i].path, img.pathname)));
-      ctx.body = productMap(product);
-  } catch (error) {
-    console.error(error);
-    ctx.throw(418);
-  }
-  next();
-})
-.get("/", async (ctx, next) => {
+}).get("/", async (ctx, next) => {
   const findOptions = getFindOptions();
   const type = ctx.URL.searchParams.get("type");
   if (type !== undefined) {
@@ -138,8 +101,7 @@ const productRouter = new Router({
     products: products.map(productMap),
   };
   next();
-})
-.get("/:id", async (ctx, next) => {
+}).get(`/:id(${UUID4_PATH_TEST})`, async (ctx, next) => {
   const findOptions = getFindOptions();
   findOptions.include[0].attributes.push("text", "title");
   findOptions.where = {
@@ -153,8 +115,46 @@ const productRouter = new Router({
     ctx.body.reviews = product.feedbacks.map(v => ({ text: v.text, rate: v.stars, title: v.title }));
   }
   next();
-})
-.post("/:id/feedback", async (ctx, next) => {
+}).post("/", async (ctx, next) => {
+  if (ctx.request.files === undefined) {
+    ctx.throw(400);
+    next();
+    return;
+  }
+  const images = Array.isArray(ctx.request.files.image)
+    ? ctx.request.files.image
+    : [ctx.request.files.image];
+  try {
+    const data: { [key: string]: any } = {
+      images: images.map(prepareImage),
+      name: ctx.request.body.name,
+      description: ctx.request.body.description,
+      rate: 5,
+      price: parseFloat(ctx.request.body.price),
+      type: ctx.request.body.type,
+    };
+    if (data.type === "Dinosaur") {
+      data.species = {
+        otherName: ctx.request.body.alias,
+        name: ctx.request.body.name,
+      };
+    }
+    const product = await Product.create(data as any, {
+      include: [
+        Product.FEEDBACK_ASSOCIATION,
+        Product.IMAGE_ASSOCIATION,
+        Product.SPECIES_ASSOCIATION,
+      ]
+    });
+    await Promise.all(product.images.map((img, i) => moveFile(images[i].path, img.pathname)));
+    ctx.body = productMap(product);
+  } catch (error) {
+    console.error(error);
+    ctx.throw(418);
+  }
+  next();
+  // FIXME: :id(${UUID4_PATH_TEST})
+}).post(`/:id/feedback`, async (ctx, next) => {
   let customer: Customer;
   try {
     customer = await getCustomerFromHeader(ctx.request.header);
@@ -182,6 +182,6 @@ const productRouter = new Router({
     ctx.throw(418);
     next();
   }
-})
+});
 
 export default productRouter;

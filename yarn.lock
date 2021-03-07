@@ -45,6 +45,17 @@
   dependencies:
     vary "^1.1.2"
 
+"@koa/router@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@koa/router/-/router-10.0.0.tgz#699115561afbd2740e2848ba299fc76b9e058ad6"
+  integrity sha512-z9ytrKWn/j/qUApMSJzZbUwkbLcN2ZXGq6UsqWkZb50Us+/Qpu0RwgZ6ytawVOhfFBZ1ai5iVWeD2Dcu0qcnJw==
+  dependencies:
+    debug "^4.1.1"
+    http-errors "^1.7.3"
+    koa-compose "^4.1.0"
+    methods "^1.1.2"
+    path-to-regexp "^6.1.0"
+
 "@mapbox/node-pre-gyp@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@mapbox/node-pre-gyp/-/node-pre-gyp-1.0.0.tgz#2b809e701da0f6729b47fe78ad4b9dc187a7d2e5"
@@ -219,13 +230,6 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/koa-router@^7.4.1":
-  version "7.4.1"
-  resolved "https://registry.yarnpkg.com/@types/koa-router/-/koa-router-7.4.1.tgz#3702a4cabe4558cc4eec70d5574acc04beecff7c"
-  integrity sha512-Hg78TXz78QYfEgdq3nTeRmQFEwJKZljsXb/DhtexmyrpRDRnl59oMglh9uPj3/WgKor0woANrYTnxA8gaWGK2A==
-  dependencies:
-    "@types/koa" "*"
-
 "@types/koa@*", "@types/koa@^2.11.6":
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/@types/koa/-/koa-2.13.0.tgz#6356c48521c0941103b6fcfb97bb01426a99d56d"
@@ -244,6 +248,13 @@
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@types/koa__cors/-/koa__cors-3.0.2.tgz#578917ffca964e98f5e9849996ae1eeda7c15704"
   integrity sha512-gBetQR0DJ9JTG1YQoW33BADHCrDPJGiJUKUUcEPJwW1A2unzpIMhorEpXB6eMaaXTaqHLemcGnq3RmH9XaryRQ==
+  dependencies:
+    "@types/koa" "*"
+
+"@types/koa__router@^8.0.4":
+  version "8.0.4"
+  resolved "https://registry.yarnpkg.com/@types/koa__router/-/koa__router-8.0.4.tgz#0b754a5e5be3262fc649afc7e93800f30cfc5fe0"
+  integrity sha512-SXpZy6ICU/bsTZbNhg7QMNUQuNE7ka94zeLPHXhej2QZ09u2tz5S3WlBRB85HLSUosUZFbIRgfrFtu+PSIAUVA==
   dependencies:
     "@types/koa" "*"
 
@@ -1614,17 +1625,6 @@ koa-convert@^1.2.0:
   dependencies:
     co "^4.6.0"
     koa-compose "^3.0.0"
-
-koa-router@10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/koa-router/-/koa-router-10.0.0.tgz#7bc76a031085731e61fc92c1683687b2f44de6a4"
-  integrity sha512-gAE5J1gBQTvfR8rMMtMUkE26+1MbO3DGpGmvfmM2pR9Z7w2VIb2Ecqeal98yVO7+4ltffby7gWOzpCmdNOQe0w==
-  dependencies:
-    debug "^4.1.1"
-    http-errors "^1.7.3"
-    koa-compose "^4.1.0"
-    methods "^1.1.2"
-    path-to-regexp "^6.1.0"
 
 koa@2.13.0:
   version "2.13.0"

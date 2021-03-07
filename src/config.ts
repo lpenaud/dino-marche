@@ -86,6 +86,8 @@ export const ALLOWED_HOSTS = getAllowedHosts();
 
 export const STARTED = Date.now();
 
+export const UUID4_PATH_TEST = "[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ABab][0-9a-f]{3}-[0-9a-f]{12}$"
+
 try {
   assert.ok(API_PORT, "API_PORT must be a number");
   assert.ok(/^[0-9A-Za-z/]+$/.test(API_PREFIX), "API_PREFIX must only be number and letters");

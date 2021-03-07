@@ -1,22 +1,21 @@
-import Router = require("koa-router");
+import * as Router from "@koa/router";
 import { Op } from "sequelize";
 import Customer from "../models/customer";
-import { compare } from "../utils/bcrypt";
+import * as bcrypt from "../utils/bcrypt";
 import * as jwt from "../utils/jwt";
 
 const customerRouter = new Router({
   prefix: "/customer",
-})
-.post("/", async (ctx, next) => {
+}).post("/", async (ctx, next) => {
   const customer = await Customer.findOne({
     where: {
       [Op.or]: [
         { login: ctx.request.body.login },
         { email: ctx.request.body.login },
-      ]
+      ],
     },
   });
-  if (customer === null || await compare(ctx.request.body.password, customer.password) === false) {
+  if (customer === null || await bcrypt.compare(ctx.request.body.password, customer.password) === false) {
     ctx.throw(418)
   } else {
     ctx.body = {
@@ -24,8 +23,7 @@ const customerRouter = new Router({
     };
   }
   next();
-})
-.post("/create", async (ctx, next) => {
+}).post("/create", async (ctx, next) => {
   try {
     await Customer.create({
       lastName: ctx.request.body.lastName,
@@ -43,4 +41,3 @@ const customerRouter = new Router({
 });
 
 export default customerRouter;
-

@@ -6,4 +6,3 @@ export function hash(data: any): Promise<string> {
 }
 
 export { compare } from "bcrypt";
-

@@ -16,7 +16,7 @@ import {
   TMP_DIR
 } from "./config";
 import sequelize from "./models";
-import router from "./routes/router";
+import router from "./routes";
 import logger from "./utils/logger/singleton-logger";
 import koaBody = require("koa-body");
 import cors = require("@koa/cors")
@@ -40,7 +40,7 @@ const app = new Koa()
 
 function boot(): Promise<void> {
   return new Promise((resolve, reject) => {
-    fork(path.join(process.cwd(), "boot/boot.js"), { stdio: "ignore", silent: true })
+    fork(path.join(process.cwd(), "boot/boot.js"), { silent: true })
     .on("close", (code) => code === 0 ? resolve() : reject(code));
   });
 }
@@ -52,10 +52,10 @@ async function sequelizeConnect(): Promise<void> {
     logger.success(`Database mysql://${MARIA_HOSTNAME}:${MARIA_PORT}/${MARIA_DB} is connected`);
     logger.success(`Server listening at https://${API_HOSTNAME}:${API_PORT}${API_PREFIX}`);
     logger.timeEnd("Start in");
+    app.use(API_LOG);
     if (MARIA_FORCE) {
       await boot();
     }
-    app.use(API_LOG);
   } catch (error) {
     logger.error("Unable to connect to MariaDB");
     throw error;

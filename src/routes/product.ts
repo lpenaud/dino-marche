@@ -4,7 +4,7 @@ import * as fs from "fs/promises";
 import type { IncomingHttpHeaders } from "http";
 import { FindOptions } from "sequelize";
 import { IFeedback, IImage, IProduct } from "../../types/models";
-import { UUID4_PATH_TEST } from "../config";
+import { IMAGE_SERVER, UUID4_PATH_TEST } from "../config";
 import { Customer, Feedback, Product } from "../models";
 import * as jwt from "../utils/jwt";
 import { intMoy } from "../utils/utils";
@@ -39,7 +39,7 @@ function getFindOptions(): FindOptions<IProduct> {
 function productMap(p: Product) {
   return {
     id: p.id,
-    images: p.images.map(i => `/image/${i.id}`),
+    images: p.images.map(i => `${IMAGE_SERVER}/${i.id}`),
     name: p.name,
     alias: p.species?.otherName,
     description: p.description,

@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
+import { URL } from "url";
 import { parseAlg } from "./utils/jwt";
 import KoaLogger from "./utils/logger/koa-logger";
 import loggerFactory from "./utils/logger/logger-factory";
@@ -87,6 +88,8 @@ export const ALLOWED_HOSTS = getAllowedHosts();
 export const STARTED = Date.now();
 
 export const UUID4_PATH_TEST = "[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ABab][0-9a-f]{3}-[0-9a-f]{12}$"
+
+export const IMAGE_SERVER = new URL(process.env.IMAGE_SERVER).href;
 
 try {
   assert.ok(API_PORT, "API_PORT must be a number");
